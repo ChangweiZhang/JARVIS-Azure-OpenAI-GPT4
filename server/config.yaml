@@ -1,7 +1,9 @@
 openai:
-  key: your_personal_openai_key # "gradio" (set when request) or your_personal_key
+  key: your_personal_openai_key_or_azure_openai_service_key  # "gradio" (set when request) or your_personal_key
 huggingface:
   token: # required: huggingface token @ https://huggingface.co/settings/tokens
+aoa: true # use Azure OpenAI service or not
+aoa_url: https://cw-openai.openai.azure.com/openai/deployments/gpt4-32k # Azure OpenAI service deployment endpoint
 dev: false
 debug: false
 log_file: logs/debug.log
