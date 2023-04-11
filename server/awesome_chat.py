@@ -246,7 +246,10 @@ def fix_dep(tasks):
         task["dep"] = []
         for k, v in args.items():
             if "<GENERATED>" in v:
-                dep_task_id = int(v.split("-")[1])
+                try:
+                    dep_task_id = int(v.split("-")[1])
+                except:
+                    dep_task_id = -1
                 if dep_task_id not in task["dep"]:
                     task["dep"].append(dep_task_id)
         if len(task["dep"]) == 0:
@@ -841,9 +844,14 @@ def run_task(input, command, results, openaikey = None):
                 hosted_on = "local" if best_model_id in all_avaliable_models["local"] else "huggingface"
             except Exception as e:
                 logger.warning(f"the response [ {choose_str} ] is not a valid JSON, try to find the model id and reason in the response.")
-                choose_str = find_json(choose_str)
-                best_model_id, reason, choose  = get_id_reason(choose_str)
-                hosted_on = "local" if best_model_id in all_avaliable_models["local"] else "huggingface"
+                try:
+                    choose_str = find_json(choose_str)
+                    best_model_id, reason, choose  = get_id_reason(choose_str)
+                    
+                except Exception as e:
+                    logger.warning(e)
+                    best_model_id, reason, choose=None,None,{}
+        hosted_on = "local" if best_model_id in all_avaliable_models["local"] else "huggingface"   
     inference_result = model_inference(best_model_id, args, hosted_on, command['task'])
 
     if "error" in inference_result:
