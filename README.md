@@ -179,6 +179,8 @@ The server-side configuration file is `server/config.yaml`, and some parameters 
 
 On a personal laptop, we recommend the configuration of `inference_mode: hybrid `and `local_deployment: minimal`. But the available models under this setting may be limited due to the instability of remote Hugging Face Inference Endpoints.
 
+If you can understand our configuration read logic, we strongly recommend that you create a new configuration file named `config_private.py` next to config.py, and transfer (copy) the configuration in config.py to config_private.py. Since config_private.py is not controlled by git, it can help keep your private information more secure.
+
 ## Screenshots
 
 <p align="center"><img src="./assets/screenshot_q.jpg"><img src="./assets/screenshot_a.jpg"></p>
