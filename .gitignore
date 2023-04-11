@@ -18,6 +18,8 @@ server/public/examples/*
 !server/public/examples/f.jpg
 !server/public/examples/g.jpg
 
+server/config.private.yaml
+
 # docker
 Dockerfile
 docker-compose.yml
