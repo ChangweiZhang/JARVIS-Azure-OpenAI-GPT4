@@ -1,6 +1,7 @@
 import tiktoken
 
 encodings = {
+    "gpt-4": tiktoken.encoding_for_model("gpt-4"),
     "gpt-3.5-turbo": tiktoken.get_encoding("cl100k_base"),
     "gpt-3.5-turbo-0301": tiktoken.get_encoding("cl100k_base"),
     "text-davinci-003": tiktoken.get_encoding("p50k_base"),
@@ -17,6 +18,7 @@ encodings = {
 
 max_length = {
     "gpt-3.5-turbo": 4096,
+    "gpt-4": 32000,
     "gpt-3.5-turbo-0301": 4096,
     "text-davinci-003": 4096,
     "text-davinci-002": 4096,

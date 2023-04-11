@@ -80,10 +80,13 @@ else:
 
 OPENAI_KEY = None
 if not config["dev"]:
-    if not config["openai"]["key"].startswith("sk-") and not config["openai"]["key"]=="gradio":
+    if not config["openai"]["key"] and not config["openai"]["key"]=="gradio":
         raise ValueError("Incrorrect OpenAI key. Please check your config.yaml file.")
     OPENAI_KEY = config["openai"]["key"]
-    endpoint = f"https://api.openai.com/v1/{api_name}"
+    if config["aoa"]:
+        endpoint = f"{config['aoa_url']}/{api_name}?api-version=2023-03-15-preview"
+    else:
+        endpoint = f"https://api.openai.com/v1/{api_name}"
 else:
     endpoint = f"{config['local']['endpoint']}/v1/{api_name}"
 
@@ -164,9 +167,17 @@ def send_request(data):
     openaikey = data.pop("openaikey")
     if use_completion:
         data = convert_chat_to_completion(data)
-    HEADER = {
+    if config["aoa"]:
+        HEADER = {
+        #"Authorization": f"Bearer {openaikey}"
+        "api-key": openaikey,
+        "Content-Type": "application/json"
+        } 
+    else:
+        HEADER = {
         "Authorization": f"Bearer {openaikey}"
-    }    
+        } 
+    
     response = requests.post(endpoint, json=data, headers=HEADER, proxies=PROXY)
     if "error" in response.json():
         return response.json()
